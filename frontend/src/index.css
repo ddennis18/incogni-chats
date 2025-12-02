@@ -1,1 +1,25 @@
 @import 'tailwindcss';
+
+@theme {
+  --color-base-100: rgb(28, 28, 22);
+  --color-base-200: rgb(11, 11, 8);
+  --color-base-300: rgb(8, 9, 6);
+  --color-primary: white;
+  --color-accent: rgb(228, 239, 129);
+}
+
+@layer base {
+  * {
+    @apply text-primary;
+  }
+
+  .lucide{
+    display: inline-block;
+  }
+}
+
+@layer components {
+  .logo {
+    @apply font-semibold text-accent text-4xl;
+  }
+}
