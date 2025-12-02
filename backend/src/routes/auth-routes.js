@@ -1,9 +1,18 @@
-import express from 'express';
-import { registerUser } from '../controllers/auth-controllers.js';
+import express from 'express'
+import {
+  loginUser,
+  logoutUser,
+  refreshToken,
+  registerUser
+} from '../controllers/auth-controllers.js'
+import { verifyToken } from '../middleware/auth-middleware.js'
 
-// /api/user/auth
-const authRoute = new express.Router();
+// /api/auth
+const authRoute = express.Router()
 
-authRoute.post('/', registerUser)
+authRoute.post('/register', registerUser)
+authRoute.post('/login', loginUser)
+authRoute.get('/refresh', verifyToken, refreshToken)
+authRoute.post('/logout', logoutUser)
 
-export default authRoute;
+export default authRoute
