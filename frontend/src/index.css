@@ -13,7 +13,11 @@
     @apply text-primary;
   }
 
-  .lucide{
+  h1 {
+    @apply text-4xl font-bold;
+  }
+
+  .lucide {
     display: inline-block;
   }
 }
@@ -21,5 +25,23 @@
 @layer components {
   .logo {
     @apply font-semibold text-accent text-4xl;
+  }
+
+  .card {
+    @apply w-full h-full text-center hover:bg-white/50 hover:backdrop-blur-lg p-4 rounded-xl;
+  }
+
+  .btn {
+    @apply bg-accent text-base-300 font-semibold border-accent border-2 p-2 rounded-sm
+  }
+
+  .btn-outline{
+    @apply bg-transparent text-accent
+  }
+}
+
+@layer utility {
+  .heading {
+    @apply text-xl font-semibold text-inherit;
   }
 }
