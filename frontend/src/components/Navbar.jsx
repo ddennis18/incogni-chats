@@ -5,7 +5,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div className='sticky inset-0 w-full bg-base-300 px-8 py-2 flex flex-row justify-between items-center shadow-lg'>
+    <div className='sticky inset-0 w-full bg-base-300/20 px-8 py-2 flex flex-row justify-between items-center shadow-lg'>
       <h2 className='logo'>INCOGNI</h2>
       <nav className=''>
         <ul className='hidden md:flex flex-row gap-4'>

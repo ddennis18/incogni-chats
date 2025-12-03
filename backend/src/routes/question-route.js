@@ -1,0 +1,11 @@
+import express from 'express'
+import { verifyToken } from '../middleware/auth-middleware.js'
+
+// /api/auth
+const router = express.Router()
+
+router.post('/new', verifyToken, createNewQuestion)
+router.post('/edit/:id', verifyToken, editQuestion)
+router.get('/:id', getQuestion)
+
+export default router
