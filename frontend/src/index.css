@@ -35,6 +35,10 @@
   .btn-outline {
     @apply bg-transparent text-secondary hover:text-base-300 hover:bg-secondary;
   }
+
+  .label{
+    @apply text-secondary font-semibold text-xl;
+  }
 }
 
 @layer utility {
