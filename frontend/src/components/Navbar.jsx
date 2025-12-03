@@ -1,5 +1,6 @@
 import { PlusIcon, Menu, X } from 'lucide-react'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -10,14 +11,14 @@ const Navbar = () => {
       <nav className=''>
         <ul className='hidden md:flex flex-row gap-4'>
           <li>Home</li>
-          <li>Dashboard</li>
+          <li><Link to='/dashboard' >Dashboard</Link></li>
           <li className='w-max'>
             New <PlusIcon />{' '}
           </li>
         </ul>
         <span className='md:hidden' onClick={() => setIsOpen(prev => !prev)}>
           {!isOpen && <Menu />}
-          {isOpen && <X/>}
+          {isOpen && <X />}
         </span>
       </nav>
       {isOpen && (

@@ -2,13 +2,15 @@ import { useState } from 'react'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import api from '../config/axios.js'
 import toaster from 'react-hot-toast'
 import image from '../assets/black-hole.jpg'
+import { useDispatch } from 'react-redux'
+import { setUserData } from '../config/userSlice.js'
+import api from '../config/axios.js'
 
 const Auth = () => {
   const [isRegister, setIsRegister] = useState(false)
-  console.log(isRegister)
+  const dispatch = useDispatch()
 
   const schema = yup.object().shape({
     username: isRegister ? yup.string().required() : yup.string(),
@@ -41,12 +43,30 @@ const Auth = () => {
           password: info.password,
           email: info.email
         })
-        toaster.success(result.data.message)
+
+        dispatch(
+          setUserData({
+            username: result.data.user.username,
+            email: info.email,
+            id: result.data.user.id
+          })
+        )
+
+        toaster.success('registered successfully!')
       } else {
         const result = await api.post('/auth/login', {
           password: info.password,
           email: info.email
         })
+        
+        dispatch(
+          setUserData({
+            username: result.data.user.username,
+            email: info.email,
+            id: result.data.user.id
+          })
+        )
+
         console.log(result)
       }
     } catch (error) {
@@ -55,7 +75,7 @@ const Auth = () => {
     }
   }
 
-  const handleError = _ => {
+  const handleError = () => {
     const availableErrors = Object.keys(errors).filter(k => errors[k])
     if (availableErrors.length === 0) return
     toaster.error(errors[availableErrors[0]].message)
