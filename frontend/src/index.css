@@ -36,13 +36,17 @@
     @apply bg-transparent text-secondary hover:text-base-300 hover:bg-secondary;
   }
 
-  .label{
-    @apply text-secondary font-semibold text-xl;
+  .label {
+    @apply text-secondary font-semibold text-sm;
+  }
+
+  .inp {
+    @apply w-full rounded-lg p-2 text-secondary bg-base-200 border-accent border-2;
   }
 }
 
 @layer utility {
   .heading {
-    @apply text-xl font-semibold text-inherit;
+    @apply text-xl font-semibold;
   }
 }
