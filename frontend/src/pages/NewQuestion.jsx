@@ -1,6 +1,6 @@
-import { CopyIcon, SaveIcon, ArrowBigRight, ShareIcon } from 'lucide-react'
+import { CopyIcon, SaveIcon } from 'lucide-react'
 
-const NewSession = () => {
+const NewQuestion = () => {
   return (
     <div className='w-full h-[70vh] flex flex-col items-center justify-center'>
       <form className='flex flex-col gap-2 max-w-[500px] w-full'>
@@ -17,12 +17,10 @@ const NewSession = () => {
         <div className='w-full flex flex-row justify-end gap-2'>
           <SaveIcon className="btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]" />
           <CopyIcon className="btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]" />
-          <ShareIcon className="btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]" />
-          <ArrowBigRight className="btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]" />
         </div>
       </form>
     </div>
   )
 }
 
-export default NewSession
+export default NewQuestion

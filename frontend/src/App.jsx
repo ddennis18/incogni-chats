@@ -1,7 +1,8 @@
 import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
-import NewSession from './pages/NewSession'
+import NewQuestion from './pages/NewQuestion'
+import EditQuestion from './pages/EditQuestion'
 
 function App () {
   return (
@@ -11,7 +12,9 @@ function App () {
       <div className='px-4'>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/new' element={<NewSession />} />
+          <Route path='/new' element={<NewQuestion />} />
+          <Route path='/dashboard' element={<EditQuestion />} />
+          <Route path='/edit' element={<EditQuestion />} />
         </Routes>
       </div>
     </div>
