@@ -57,7 +57,8 @@ export async function loginUser (req, res) {
       return res.status(400).send({ ok: false, message: 'invalid credentials' })
     }
 
-    const isMatch = bcrypt.compare(password, user.password)
+    const isMatch = await bcrypt.compare(password, user.password)
+
     if (!isMatch) {
       return res.status(400).send({ ok: false, message: 'inavlid credentials' })
     }
@@ -84,7 +85,8 @@ export async function loginUser (req, res) {
       httpOnly: true,
       //can only be send over via https only in production
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict'
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000
     })
 
     return res.status(200).send({
@@ -105,7 +107,7 @@ export async function loginUser (req, res) {
   }
 }
 
-export async function refreshToken (res, req) {
+export async function refreshToken (req, res) {
   //this function sends a new token when the access token expires
   try {
     const token = req.cookies.refreshToken

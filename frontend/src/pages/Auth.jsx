@@ -4,14 +4,25 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import toaster from 'react-hot-toast'
 import image from '../assets/black-hole.jpg'
-import { useDispatch } from 'react-redux'
-import { setUserData } from '../config/userSlice.js'
-import api from '../config/axios.js'
+import axios from 'axios'
+import { useAuth } from '../context/AuthContext'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const Auth = () => {
-  const [isRegister, setIsRegister] = useState(false)
-  const dispatch = useDispatch()
+  //to navigate obviously
+  const navigate = useNavigate()
 
+  //is it login or register
+  const [searchParams, _] = useSearchParams()
+  const mode = searchParams.get('mode') ?? 'login'
+
+  //switching between login and register modes
+  const [isRegister, setIsRegister] = useState(mode === 'register')
+
+  //this is the auth context and setAuth is used to set the global user data
+  const { setAuth } = useAuth()
+
+  //schema for the form
   const schema = yup.object().shape({
     username: isRegister ? yup.string().required() : yup.string(),
     email: yup.string().email().required(),
@@ -29,52 +40,53 @@ const Auth = () => {
       : yup.string()
   })
 
+  //initailise react-hook-form
   const {
     handleSubmit,
     register,
     formState: { errors }
   } = useForm({ resolver: yupResolver(schema) })
 
+  //login and register logic happen here
   const submit = async info => {
     try {
+      //register the user and then login
       if (isRegister) {
-        const result = await api.post('/auth/register', {
-          username: info.username,
-          password: info.password,
-          email: info.email
-        })
-
-        dispatch(
-          setUserData({
-            username: result.data.user.username,
+        await axios.post(
+          '/api/auth/register',
+          {
             email: info.email,
-            id: result.data.user.id
-          })
+            password: info.password,
+            username: info.username
+          },
+          {
+            withCredentials: true
+          }
         )
 
-        toaster.success('registered successfully!')
-      } else {
-        const result = await api.post('/auth/login', {
-          password: info.password,
-          email: info.email
-        })
-        
-        dispatch(
-          setUserData({
-            username: result.data.user.username,
-            email: info.email,
-            id: result.data.user.id
-          })
-        )
-
-        console.log(result)
+        toaster.success('Registered Successfully')
       }
+
+      //login the user!
+      const res = await axios.post(
+        '/api/auth/login',
+        { email: info.email, password: info.password },
+        {
+          withCredentials: true
+        }
+      )
+
+      //set the value of the auth
+      setAuth({ accessToken: res.data.accessToken, user: res.data.user })
+      toaster.success('Logged In Successfully')
+      navigate('/dashboard')
     } catch (error) {
-      console.log(error.response.data.message)
-      toaster.error(error.response.data.message)
+      console.log(error)
+      toaster.error(error?.response?.data?.message)
     }
   }
 
+  //this finction handles errors and displays using react hot toast
   const handleError = () => {
     const availableErrors = Object.keys(errors).filter(k => errors[k])
     if (availableErrors.length === 0) return

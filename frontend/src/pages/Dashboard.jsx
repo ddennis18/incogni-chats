@@ -1,19 +1,12 @@
-import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useAuth } from "../context/AuthContext.jsx"
 
 const Dashboard = () => {
-  const userName = null
-  const isLoggedIn = useSelector(state => state.user.isLoggedIn)
-
-  {/*test if loggged in */}
-  useEffect(() => {
-    console.log(isLoggedIn)
-  }, [])
+  const {auth: {user}, loading} = useAuth()
 
   return (
     <div className='text-center'>
       <h2 className='text-secondary text-2xl font-semibold'>
-        Hey! {userName ?? 'User.'}
+        Hey! {user?.username}
       </h2>
       <section></section>
     </div>

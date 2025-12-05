@@ -12,7 +12,7 @@ const authRoute = express.Router()
 
 authRoute.post('/register', registerUser)
 authRoute.post('/login', loginUser)
-authRoute.get('/refresh', verifyToken, refreshToken)
+authRoute.get('/refresh', refreshToken)
 authRoute.post('/logout', logoutUser)
 
 export default authRoute
