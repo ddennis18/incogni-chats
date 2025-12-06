@@ -1,5 +1,6 @@
 import express from 'express'
 import { verifyToken } from '../middleware/auth-middleware.js'
+import { createNewQuestion, editQuestion, getQuestion } from '../controllers/question-controllers.js'
 
 // /api/auth
 const router = express.Router()

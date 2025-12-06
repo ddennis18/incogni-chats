@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 
 export function verifyToken (req, res, next) {
   //get the auhtorisation header
-  const authHeader = req.header.authorisation
+  const authHeader = req.header('Authorization')
   if (!authHeader) {
     return res.status(403).send({ ok: false, messsage: 'unauthorised' })
   }
@@ -13,7 +13,7 @@ export function verifyToken (req, res, next) {
   //verify it
   jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, user)=>{
     if(err){
-      return res.status(403).send({ok: false, messsage: 'unauthorised'})
+      return res.status(403).send({ok: false, messsage: 'unauthorised expired token'})
     }
 
     //so the user id would be in the req

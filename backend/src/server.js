@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
 import authRoute from './routes/auth-routes.js'
+import questionRoute from './routes/question-routes.js'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 
@@ -20,6 +21,7 @@ app.use(express.json())
 
 //set the users route
 app.use('/api/auth', authRoute)
+app.use('/api/question', questionRoute)
 
 app.use((req, res, next) => {
   res.status(404).send({ message: 'route doesnt exists' })
