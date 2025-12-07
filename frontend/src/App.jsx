@@ -6,6 +6,7 @@ import EditQuestion from './pages/EditQuestion'
 import Dashboard from './pages/Dashboard'
 import Auth from './pages/Auth'
 import { AuthProvider } from './context/AuthContext'
+import UserRoute from './components/UserRoute'
 
 function App () {
   return (
@@ -18,9 +19,23 @@ function App () {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/new' element={<NewQuestion />} />
-            <Route path='/dashboard' element={<Dashboard />} />
+            <Route
+              path='/dashboard'
+              element={
+                <UserRoute>
+                  <Dashboard />
+                </UserRoute>
+              }
+            />
             <Route path='/auth' element={<Auth />} />
-            <Route path='/edit' element={<EditQuestion />} />
+            <Route
+              path='/edit/:id'
+              element={
+                <UserRoute>
+                  <EditQuestion />
+                </UserRoute>
+              }
+            />
           </Routes>
         </div>
       </div>

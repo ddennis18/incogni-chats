@@ -58,6 +58,22 @@ export async function editQuestion (req, res) {
   }
 }
 
+export async function getAllQuestions (req, res) {
+  try {
+    const uid = req.user.id
+    const questions = await Question.find({ author: uid })
+    console.log(questions)
+
+    res.status(200).send({ok:true, questions})
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({
+      ok: false,
+      message: 'Server Error'
+    })
+  }
+}
+
 export async function getQuestion (req, res) {
   try {
     const id = req.params.id
