@@ -5,7 +5,7 @@ import axios from 'axios'
 import QuestionCard from '../components/QuestionCard.jsx'
 
 const Dashboard = () => {
-  const { auth, loading } = useAuth()
+  const { auth } = useAuth()
   const [questions, setQuestions] = useState([])
   let user = {}
   if (auth) {
@@ -28,7 +28,7 @@ const Dashboard = () => {
       <h2 className='text-secondary text-2xl font-semibold'>
         Hey! {user?.username}
       </h2>
-      <section className='grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 p-4' >
+      <section className='grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4 p-4' >
         {questions.map(q => {
           return <QuestionCard key={q._id} {...q} />
         })}

@@ -4,7 +4,7 @@ export function verifyToken (req, res, next) {
   //get the auhtorisation header
   const authHeader = req.header('Authorization')
   if (!authHeader) {
-    return res.status(403).send({ ok: false, messsage: 'unauthorised' })
+    return res.status(403).send({ ok: false, messsage: 'unauthorised no authorisation' })
   }
 
   //extract token

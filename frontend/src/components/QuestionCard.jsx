@@ -6,7 +6,7 @@ const QuestionCard = ({ text, replies, _id }) => {
     <div className='bg-base-100 border-t-4 border-accent rounded-xl p-4 min-h-[150px] flex flex-col items-center justify-between'>
       <p>{text}</p>
       <div className='w-full flex justify-between items-end'>
-        <span>Replies: {replies?.length}</span>
+        <span>Replies: {replies?.length ?? 0}</span>
         <span className='space-x-1'>
           <Trash2Icon className='btn p-1 stroke-base-300 hover:stroke-secondary size-8 [border-radius:8px]' />
           <Link to={`/edit/${_id}`}>

@@ -1,3 +1,4 @@
+import { isObjectIdOrHexString } from 'mongoose'
 import Question from '../models/Question.js'
 
 export async function createNewQuestion (req, res) {
@@ -32,6 +33,10 @@ export async function editQuestion (req, res) {
     const { text } = req.body || {}
     const id = req.params.id
 
+    if (!isObjectIdOrHexString(id)) {
+      return res.status(400).send({ ok: false, message: 'bad request' })
+    }
+
     if (!text) {
       return res.status(400).send({ ok: false, message: 'invalid data' })
     }
@@ -42,7 +47,7 @@ export async function editQuestion (req, res) {
       { new: true }
     )
     if (!updatedQuestion)
-      return res.status(403).send({ ok: false, message: 'unauthorised' })
+      return res.status(403).send({ ok: false, message: 'unauthorised, user is not the author' })
 
     res.status(200).send({
       ok: true,
@@ -62,9 +67,8 @@ export async function getAllQuestions (req, res) {
   try {
     const uid = req.user.id
     const questions = await Question.find({ author: uid })
-    console.log(questions)
 
-    res.status(200).send({ok:true, questions})
+    res.status(200).send({ ok: true, questions })
   } catch (error) {
     console.log(error)
     res.status(500).send({
@@ -77,6 +81,10 @@ export async function getAllQuestions (req, res) {
 export async function getQuestion (req, res) {
   try {
     const id = req.params.id
+    if (!isObjectIdOrHexString(id)) {
+      return res.status(400).send({ ok: false, message: 'bad request' })
+    }
+
     const question = await Question.findById(id)
     if (!question) {
       return res
