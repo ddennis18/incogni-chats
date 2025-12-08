@@ -10,9 +10,9 @@ import {
 // /api/auth
 const router = express.Router()
 
-router.get('/all', verifyToken, getAllQuestions)
 router.post('/new', verifyToken, createNewQuestion)
 router.post('/edit/:id', verifyToken, editQuestion)
+router.get('/all', verifyToken, getAllQuestions)
 router.get('/:id', getQuestion)
 
 export default router

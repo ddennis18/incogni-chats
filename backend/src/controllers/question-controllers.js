@@ -4,19 +4,21 @@ import Question from '../models/Question.js'
 export async function createNewQuestion (req, res) {
   try {
     const uid = req.user.id
-    const { text } = req.body || {}
+    const { text, isAnswerable } = req.body || {}
+
+    if (!isAnswerable) isAnswerable = true
 
     if (!text) {
       return res.status(400).send({ ok: false, message: 'invalid data' })
     }
 
-    const newQuestion = Question({ text, author: uid })
+    const newQuestion = Question({ text, isAnswerable, author: uid })
     await newQuestion.save()
 
     res.status(201).send({
       ok: true,
       message: 'question created correctly',
-      question: { id: newQuestion._id, text: newQuestion.text }
+      question: newQuestion
     })
   } catch (error) {
     console.log(error)
@@ -30,12 +32,17 @@ export async function createNewQuestion (req, res) {
 export async function editQuestion (req, res) {
   try {
     const uid = req.user.id
-    const { text } = req.body || {}
+    //the id of the question to be edited
     const id = req.params.id
 
+    const { text, isAnswerable } = req.body || {}
+
+    //if the parsed id is a valid hex
     if (!isObjectIdOrHexString(id)) {
       return res.status(400).send({ ok: false, message: 'bad request' })
     }
+
+    if (!isAnswerable) isAnswerable = true
 
     if (!text) {
       return res.status(400).send({ ok: false, message: 'invalid data' })
@@ -43,16 +50,18 @@ export async function editQuestion (req, res) {
 
     const updatedQuestion = await Question.findOneAndUpdate(
       { _id: id, author: uid },
-      { text: text },
+      { text, isAnswerable },
       { new: true }
     )
     if (!updatedQuestion)
-      return res.status(403).send({ ok: false, message: 'unauthorised, user is not the author' })
+      return res
+        .status(403)
+        .send({ ok: false, message: 'unauthorised, user is not the author' })
 
     res.status(200).send({
       ok: true,
       message: 'question updated correctly',
-      question: { id: updatedQuestion._id, text: updatedQuestion.text }
+      question: updatedQuestion
     })
   } catch (error) {
     console.log(error)

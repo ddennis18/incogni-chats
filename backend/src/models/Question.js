@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 const questionSchema = new mongoose.Schema(
   {
     text: { type: String, required: true },
+    isAnswerable: { type: Boolean, default: true, required: true },
     author: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
