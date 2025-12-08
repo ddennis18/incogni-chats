@@ -53,9 +53,23 @@ const EditQuestion = () => {
           defaultValue={question.text}
           onChange={e => setQuestion({ ...question, text: e.target.value })}
         ></textarea>
+        <div className='flex items-center gap-2'>
+          <label htmlFor='' className='label text-lg'>
+            Can Accept Responses{' '}
+          </label>
+          <input
+            type='checkbox'
+            name=''
+            id=''
+            className='accent-accent size-4'
+            defaultChecked={question.isAnswerable}
+            onChange={e =>
+              setQuestion({ ...question, isAnswerable: e.target.value === 'on' })
+            }
+          />
+        </div>
         <div className='w-full flex flex-row justify-end gap-2'>
           <Trash2 className='btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]' />
-          <LockKeyholeIcon className='btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]' />
           <CopyIcon className='btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]' />
           <button onClick={handleSubmit}>
             <SaveIcon className='btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]' />
