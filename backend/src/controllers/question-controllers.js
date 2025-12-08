@@ -110,3 +110,28 @@ export async function getQuestion (req, res) {
     })
   }
 }
+
+export async function deleteQuestion (req, res) {
+  try {
+    const id = req.params.id
+    const uid = req.user.id
+    
+    if (!isObjectIdOrHexString(id)) {
+      return res.status(400).send({ ok: false, message: 'bad request' })
+    }
+
+    const question = await Question.findOneAndDelete({ _id: id, author: uid })
+
+    if (!question) {
+      return res.status(403).send({ ok: false, message: 'unauthorised' })
+    }
+
+    return res.status(200).send({ ok: true, message: 'deleted successfully', question })
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({
+      ok: false,
+      message: 'Server Error'
+    })
+  }
+}
