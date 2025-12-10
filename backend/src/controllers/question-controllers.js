@@ -5,9 +5,7 @@ export async function createNewQuestion (req, res) {
   try {
     const uid = req.user.id
     console.log("CREATE QUESTION", {uid})
-    const { text, isAnswerable } = req.body || {}
-
-    if (!isAnswerable) isAnswerable = true
+    let { text, isAnswerable } = req.body || {}
 
     if (!text) {
       return res.status(400).send({ ok: false, message: 'invalid data' })
@@ -77,7 +75,7 @@ export async function editQuestion (req, res) {
 export async function getAllQuestions (req, res) {
   try {
     const uid = req.user.id
-    console.log("GET ALL QUESTION", {uid:id})
+    console.log("GET ALL QUESTION", {uid})
     const questions = await Question.find({ author: uid })
 
     res.status(200).send({ ok: true, questions })

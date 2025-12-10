@@ -18,7 +18,14 @@ function App () {
         <div className='w-full h-full'>
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/new' element={<NewQuestion />} />
+            <Route
+              path='/new'
+              element={
+                <UserRoute>
+                  <NewQuestion />
+                </UserRoute>
+              }
+            />
             <Route
               path='/dashboard'
               element={
