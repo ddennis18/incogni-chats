@@ -44,7 +44,7 @@ const EditQuestion = () => {
   const handleDelete = async e =>{
     e.preventDefault()
     try {
-      const res = await axios.delete(`/api/question/${id}`, question, {
+      const res = await axios.delete(`/api/question/${id}`, {
         headers: { Authorization: `Bearer ${auth.accessToken}` }
       })
 

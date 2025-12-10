@@ -4,6 +4,7 @@ import Question from '../models/Question.js'
 export async function createNewQuestion (req, res) {
   try {
     const uid = req.user.id
+    console.log("CREATE QUESTION", {uid})
     const { text, isAnswerable } = req.body || {}
 
     if (!isAnswerable) isAnswerable = true
@@ -34,6 +35,7 @@ export async function editQuestion (req, res) {
     const uid = req.user.id
     //the id of the question to be edited
     const id = req.params.id
+    console.log("EDIT QUESTION", {uid,id})
 
     const { text, isAnswerable } = req.body || {}
 
@@ -75,6 +77,7 @@ export async function editQuestion (req, res) {
 export async function getAllQuestions (req, res) {
   try {
     const uid = req.user.id
+    console.log("GET ALL QUESTION", {uid:id})
     const questions = await Question.find({ author: uid })
 
     res.status(200).send({ ok: true, questions })
@@ -90,6 +93,7 @@ export async function getAllQuestions (req, res) {
 export async function getQuestion (req, res) {
   try {
     const id = req.params.id
+    console.log("GET QUESTION", {id})
     if (!isObjectIdOrHexString(id)) {
       return res.status(400).send({ ok: false, message: 'bad request' })
     }
@@ -115,14 +119,17 @@ export async function deleteQuestion (req, res) {
   try {
     const id = req.params.id
     const uid = req.user.id
+
+    console.log("DELETE QUESTION", {id, uid})
     
     if (!isObjectIdOrHexString(id)) {
       return res.status(400).send({ ok: false, message: 'bad request' })
     }
-
+    
     const question = await Question.findOneAndDelete({ _id: id, author: uid })
-
+    
     if (!question) {
+      console.log("unaithorised")
       return res.status(403).send({ ok: false, message: 'unauthorised' })
     }
 
