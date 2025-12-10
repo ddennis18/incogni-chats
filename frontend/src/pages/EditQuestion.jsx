@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import toaster from 'react-hot-toast'
 import { useAuth } from '../context/AuthContext'
+import LoadingScreen from '../components/LoadingScreen'
 
 const EditQuestion = () => {
   const { id } = useParams()
   const [question, setQuestion] = useState({})
+  const [loading, setLoading] = useState(true)
   const { auth } = useAuth()
   const navigate = useNavigate()
 
@@ -15,6 +17,7 @@ const EditQuestion = () => {
     const fetchQuestion = async () => {
       const res = await axios.get(`/api/question/${id}`)
       setQuestion(res.data)
+      setLoading(false)
     }
 
     fetchQuestion().catch(error => {
@@ -36,6 +39,25 @@ const EditQuestion = () => {
       console.log(error)
       toaster.error('failed to update')
     }
+  }
+
+  const handleDelete = async e =>{
+    e.preventDefault()
+    try {
+      const res = await axios.delete(`/api/question/${id}`, question, {
+        headers: { Authorization: `Bearer ${auth.accessToken}` }
+      })
+
+      toaster.success(res.data.message)
+      navigate('/dashboard')
+    } catch (error) {
+      console.log(error)
+      toaster.error('failed to delete')
+    }
+  }
+
+  if (loading) {
+    return <LoadingScreen message={'Retrieving Question Data'} />
   }
 
   return (
@@ -64,12 +86,17 @@ const EditQuestion = () => {
             className='accent-accent size-4'
             defaultChecked={question.isAnswerable}
             onChange={e =>
-              setQuestion({ ...question, isAnswerable: e.target.value === 'on' })
+              setQuestion({
+                ...question,
+                isAnswerable: e.target.value === 'on'
+              })
             }
           />
         </div>
         <div className='w-full flex flex-row justify-end gap-2'>
-          <Trash2 className='btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]' />
+          <button onClick={handleDelete}>
+            <Trash2 className='btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]' />
+          </button>
           <CopyIcon className='btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]' />
           <button onClick={handleSubmit}>
             <SaveIcon className='btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]' />
