@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import QuestionCard from '../components/QuestionCard.jsx'
 import toaster from 'react-hot-toast'
+import { useNavigate } from 'react-router'
 
 const Dashboard = () => {
   const { auth } = useAuth()
@@ -32,14 +33,25 @@ const Dashboard = () => {
     })
   }, [])
 
+  const deleteQuestion = async id => {
+    try {
+      const res = await axios.delete(`/api/question/${id}`, {
+        headers: { Authorization: `Bearer ${auth.accessToken}` }
+      })
+      toaster.success(res.data.message)
+      setQuestions(questions.filter(q => q._id != id))
+    } catch (error) {
+      console.log(error)
+      toaster.error('failed to delete')
+    }
+  }
+
   return (
     <div className='text-center'>
       <h2 className='text-secondary text-2xl font-semibold'>
         Hey! {user?.username}
       </h2>
-      {loading && (
-        <LoadingScreen message={'retrive questions'}/>
-      )}
+      {loading && <LoadingScreen message={'retrive questions'} />}
       {error && !loading && (
         <h2 className='mt-20 text-4xl text-red-600 font-bold'>
           An error has occured!
@@ -49,9 +61,18 @@ const Dashboard = () => {
         <h2 className='mt-20 text-4xl text-accent font-bold'>No Notes Yet!</h2>
       )}
       {questions.length != 0 && (
-        <section className='grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4 p-4'>
+        <section className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4'>
           {questions.map(q => {
-            return <QuestionCard key={q._id} {...q} />
+            return (
+              <QuestionCard
+                key={q._id}
+                question={{ ...q }}
+                handleDelete={e => {
+                  e.preventDefault()
+                  deleteQuestion(q._id)
+                }}
+              />
+            )
           })}
         </section>
       )}
