@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import QuestionCard from '../components/QuestionCard.jsx'
 import toaster from 'react-hot-toast'
-import { useNavigate } from 'react-router'
 
 const Dashboard = () => {
   const { auth } = useAuth()

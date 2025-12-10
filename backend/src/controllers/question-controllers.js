@@ -42,7 +42,7 @@ export async function editQuestion (req, res) {
       return res.status(400).send({ ok: false, message: 'bad request' })
     }
 
-    if (!isAnswerable) isAnswerable = true
+    if (isAnswerable == null) isAnswerable = true
 
     if (!text) {
       return res.status(400).send({ ok: false, message: 'invalid data' })

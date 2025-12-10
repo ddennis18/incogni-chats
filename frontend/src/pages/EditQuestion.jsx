@@ -88,7 +88,7 @@ const EditQuestion = () => {
             onChange={e =>
               setQuestion({
                 ...question,
-                isAnswerable: e.target.value === 'on'
+                isAnswerable: e.target.checked
               })
             }
           />
