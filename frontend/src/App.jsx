@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard'
 import Auth from './pages/Auth'
 import { AuthProvider } from './context/AuthContext'
 import UserRoute from './components/UserRoute'
+import DetailsPage from './pages/DetailsPage'
 
 function App () {
   return (
@@ -40,6 +41,14 @@ function App () {
               element={
                 <UserRoute>
                   <EditQuestion />
+                </UserRoute>
+              }
+            />
+            <Route
+              path='/details/:id'
+              element={
+                <UserRoute>
+                  <DetailsPage />
                 </UserRoute>
               }
             />
