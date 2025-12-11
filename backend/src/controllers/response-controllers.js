@@ -54,13 +54,14 @@ export async function respondToQuestion (req, res) {
 
 export async function getResponse (req, res) {
   try {
+    const uid = req.user.id
     const id = req.params.id
 
     if (!isObjectIdOrHexString(id)) {
       return res.status(400).send({ ok: false, message: 'Invalid Request' })
     }
 
-    const response = await Response.findById(id)
+    const response = await Response.findOne({ _id: id, reciever: uid })
       .populate('question')
       .populate('reciever')
 

@@ -9,8 +9,8 @@ import {
 // /api/response
 const router = express.Router()
 
-router.get('/:id', getResponse)
-router.get('/all/:id', getAllResponsesToAQuestion)
+router.get('/:id', verifyToken, getResponse)
+router.get('/all/:id', verifyToken, getAllResponsesToAQuestion)
 router.post('/:id', respondToQuestion)
 
 export default router
