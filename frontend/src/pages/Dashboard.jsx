@@ -6,15 +6,11 @@ import QuestionCard from '../components/QuestionCard.jsx'
 import toaster from 'react-hot-toast'
 
 const Dashboard = () => {
-  const { auth } = useAuth()
+  const { auth } = useAuth() || {}
   const [questions, setQuestions] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
-  let user = {}
-  if (auth) {
-    user = auth.user
-  }
-
+  
   useEffect(() => {
     const fetchQuestions = async () => {
       const res = await axios.get('/api/question/all', {
@@ -31,6 +27,12 @@ const Dashboard = () => {
       toaster.error('Failed to load your questions')
     })
   }, [])
+
+  if (!auth) {
+    return <div></div>
+  }
+  const user = auth.user
+
 
   const deleteQuestion = async id => {
     try {
