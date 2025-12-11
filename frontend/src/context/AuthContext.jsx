@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
           withCredentials: true
         })
         setAuth({ accessToken: res.data.accessToken, user: res.data.user })
+        console.log({ accessToken: res.data.accessToken, user: res.data.user })
       } catch (error) {
         console.log(error)
         setAuth(null)
