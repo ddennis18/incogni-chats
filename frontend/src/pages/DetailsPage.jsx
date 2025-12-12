@@ -5,6 +5,8 @@ import { useAuth } from '../context/AuthContext'
 import ResponseCard from '../components/ResponseCard'
 import { Link } from 'react-router-dom'
 import { Circle, Trash2Icon, EditIcon, CopyIcon } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import toaster from 'react-hot-toast'
 
 const DetailsPage = () => {
   const { id: qid } = useParams()
@@ -12,6 +14,7 @@ const DetailsPage = () => {
   const { auth } = useAuth()
   const [responses, setResponses] = useState([])
   const { isAnswerable, text } = question
+  const navigate = useNavigate()
 
   const fetchResponses = async () => {
     const res = await axios.get(`/api/response/all/${qid}`, {
@@ -32,6 +35,19 @@ const DetailsPage = () => {
     fetchResponses().catch(e => console.log(e))
   }, [])
 
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/api/question/${qid}`, {
+        headers: { Authorization: `Bearer ${auth.accessToken}` }
+      })
+      toaster.success('deleted successfully')
+      navigate('/dashboard')
+    } catch (error) {
+      console.log(error)
+      toaster.error('failed to delete')
+    }
+  }
+
   return (
     <div className='px-4 mt-10'>
       <div className='relative bg-base-100 border-t-4 border-accent rounded-xl p-4 min-h-[150px] flex flex-col items-center justify-between'>
@@ -42,7 +58,7 @@ const DetailsPage = () => {
         <div className='w-full flex justify-between items-end'>
           <span>Responses: {responses?.length ?? 0}</span>
           <span className='space-x-1'>
-            <button onClick={() => {}}>
+            <button onClick={handleDelete}>
               <Trash2Icon className='btn p-1 stroke-base-300 hover:stroke-secondary size-8 [border-radius:8px]' />
             </button>
             <Link to={`/edit/${qid}`}>
