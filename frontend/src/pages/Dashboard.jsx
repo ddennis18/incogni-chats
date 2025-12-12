@@ -4,13 +4,15 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import QuestionCard from '../components/QuestionCard.jsx'
 import toaster from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 const Dashboard = () => {
   const { auth } = useAuth() || {}
   const [questions, setQuestions] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
-  
+  const navigate = useNavigate()
+
   useEffect(() => {
     const fetchQuestions = async () => {
       const res = await axios.get('/api/question/all', {
@@ -32,7 +34,6 @@ const Dashboard = () => {
     return <div></div>
   }
   const user = auth.user
-
 
   const deleteQuestion = async id => {
     try {
@@ -71,6 +72,9 @@ const Dashboard = () => {
                 handleDelete={e => {
                   e.preventDefault()
                   deleteQuestion(q._id)
+                }}
+                handleClick={() => {
+                  navigate(`/details/${q._id}`)
                 }}
               />
             )
