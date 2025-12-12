@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import QuestionCard from '../components/QuestionCard.jsx'
 import toaster from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
+import { PlusIcon } from 'lucide-react'
 
 const Dashboard = () => {
   const { auth } = useAuth() || {}
@@ -50,6 +51,9 @@ const Dashboard = () => {
 
   return (
     <div className='text-center'>
+      <Link className='ml-auto mt-4 mr-4 w-min flex flex-row text-base-300 bg-secondary text-xl font-semibold p-1 rounded-lg' to='/new'>
+        Create <PlusIcon className='stroke-base-300 self-center' />
+      </Link>
       <h2 className='text-secondary text-2xl font-semibold'>
         Hey! {user?.username}
       </h2>
@@ -63,7 +67,7 @@ const Dashboard = () => {
         <h2 className='mt-20 text-4xl text-accent font-bold'>No Notes Yet!</h2>
       )}
       {questions.length != 0 && (
-        <section className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4'>
+        <section className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4'>
           {questions.map(q => {
             return (
               <QuestionCard

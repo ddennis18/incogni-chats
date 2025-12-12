@@ -2,7 +2,7 @@ import { EditIcon, CopyIcon, Trash2Icon, Circle } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 const QuestionCard = ({ question, handleDelete, handleClick }) => {
-  const { text, replies, _id, isAnswerable } = question
+  const { text, _id, isAnswerable } = question
   return (
     <div
       onClick={e => {
@@ -16,7 +16,6 @@ const QuestionCard = ({ question, handleDelete, handleClick }) => {
       )}
       <p>{text}</p>
       <div className='w-full flex justify-between items-end'>
-        <span>Replies: {replies?.length ?? 0}</span>
         <span className='space-x-1'>
           <button onClick={handleDelete}>
             <Trash2Icon className='btn p-1 stroke-base-300 hover:stroke-secondary size-8 [border-radius:8px]' />
