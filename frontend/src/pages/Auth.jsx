@@ -22,6 +22,8 @@ const Auth = () => {
   //this is the auth context and setAuth is used to set the global user data
   const { setAuth } = useAuth()
 
+  const [isLoading, setIsLoading] = useState(false)
+
   //schema for the form
   const schema = yup.object().shape({
     username: isRegister ? yup.string().required() : yup.string(),
@@ -83,6 +85,8 @@ const Auth = () => {
     } catch (error) {
       console.log(error)
       toaster.error(error?.response?.data?.message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -91,6 +95,14 @@ const Auth = () => {
     const availableErrors = Object.keys(errors).filter(k => errors[k])
     if (availableErrors.length === 0) return
     toaster.error(errors[availableErrors[0]].message)
+  }
+
+  if (isLoading) {
+    return (
+      <LoadingScreen
+        message={isRegister ? 'Registerring You' : 'Logging You In'}
+      />
+    )
   }
 
   return (
