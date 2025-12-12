@@ -7,32 +7,39 @@ import { Link } from 'react-router-dom'
 import { Circle, Trash2Icon, EditIcon, CopyIcon } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import toaster from 'react-hot-toast'
+import LoadingScreen from '../components/LoadingScreen'
 
 const DetailsPage = () => {
   const { id: qid } = useParams()
   const [question, setQuestion] = useState({})
   const { auth } = useAuth()
   const [responses, setResponses] = useState([])
+  const navigate = useNavigate(true)
+  const [isLoading, setIsLoading] = useState(true)
   const { isAnswerable, text } = question
-  const navigate = useNavigate()
-
-  const fetchResponses = async () => {
-    const res = await axios.get(`/api/response/all/${qid}`, {
-      headers: {
-        Authorization: `Bearer ${auth.accessToken}`
-      }
-    })
-
-    setResponses(res.data.responses)
-  }
 
   useEffect(() => {
-    const fetchQuestion = async () => {
-      const res = await axios.get(`/api/question/${qid}`)
-      setQuestion(res.data)
+    const fetchData = async () => {
+      try {
+        const q_res = await axios.get(`/api/question/${qid}`)
+        const r_res = await axios.get(`/api/response/all/${qid}`, {
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`
+          }
+        })
+
+        setQuestion(q_res.data)
+        setResponses(r_res.data.responses)
+      } catch (e) {
+        console.log(e)
+        toaster.error('failed to load question data')
+        navigate('/dashboard')
+      } finally {
+        setIsLoading(false)
+      }
     }
-    fetchQuestion().catch(e => console.log(e))
-    fetchResponses().catch(e => console.log(e))
+
+    fetchData()
   }, [])
 
   const handleDelete = async () => {
@@ -46,6 +53,10 @@ const DetailsPage = () => {
       console.log(error)
       toaster.error('failed to delete')
     }
+  }
+
+  if (isLoading) {
+    return <LoadingScreen message={'loading question data'} />
   }
 
   return (
@@ -73,7 +84,7 @@ const DetailsPage = () => {
       </h3>
       <section className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
         {responses.map(r => {
-          return <ResponseCard {...r} />
+          return <ResponseCard key={r._id} {...r} />
         })}
       </section>
     </div>
