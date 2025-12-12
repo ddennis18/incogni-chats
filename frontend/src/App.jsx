@@ -8,6 +8,7 @@ import Auth from './pages/Auth'
 import { AuthProvider } from './context/AuthContext'
 import UserRoute from './components/UserRoute'
 import DetailsPage from './pages/DetailsPage'
+import ResponsePage from './pages/ResponsePage'
 
 function App () {
   return (
@@ -19,6 +20,7 @@ function App () {
         <div className='w-full h-full'>
           <Routes>
             <Route path='/' element={<Home />} />
+            <Route path='/respond/:id' element={<ResponsePage />} />
             <Route
               path='/new'
               element={
