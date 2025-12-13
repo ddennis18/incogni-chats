@@ -61,7 +61,6 @@ const NewQuestion = () => {
           <button onClick={handleSubmit}>
             <SaveIcon className='btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]' />
           </button>
-          <CopyIcon className='btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]' />
         </div>
       </form>
     </div>

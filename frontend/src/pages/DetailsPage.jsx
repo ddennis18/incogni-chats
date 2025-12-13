@@ -8,6 +8,7 @@ import { Circle, Trash2Icon, EditIcon, CopyIcon } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import toaster from 'react-hot-toast'
 import LoadingScreen from '../components/LoadingScreen'
+import { copyToClipboard } from '../lib/utils'
 
 const DetailsPage = () => {
   const { id: qid } = useParams()
@@ -42,6 +43,12 @@ const DetailsPage = () => {
     fetchData()
   }, [])
 
+  const handleCopy = () => {
+    const link = `${window.location.origin}/respond/${qid}`
+    toaster.success('Link Copied To Clipboard')
+    copyToClipboard(link)
+  }
+
   const handleDelete = async () => {
     try {
       await axios.delete(`/api/question/${qid}`, {
@@ -75,7 +82,7 @@ const DetailsPage = () => {
             <Link to={`/edit/${qid}`}>
               <EditIcon className='btn p-1 stroke-base-300 hover:stroke-secondary size-8 [border-radius:8px]' />
             </Link>
-            <CopyIcon className='btn p-1 stroke-base-300 hover:stroke-secondary size-8 [border-radius:8px]' />
+            <CopyIcon onClick={handleCopy} className='btn p-1 stroke-base-300 hover:stroke-secondary size-8 [border-radius:8px]' />
           </span>
         </div>
       </div>

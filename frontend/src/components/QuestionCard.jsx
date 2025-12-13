@@ -1,8 +1,17 @@
 import { EditIcon, CopyIcon, Trash2Icon, Circle } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { copyToClipboard } from '../lib/utils'
+import toaster from 'react-hot-toast'
 
 const QuestionCard = ({ question, handleDelete, handleClick }) => {
   const { text, _id, isAnswerable } = question
+
+  const handleCopy = ()=>{
+    const link = `${window.location.origin}/respond/${_id}`
+    toaster.success('Link Copied To Clipboard')
+    copyToClipboard(link)
+  }
+
   return (
     <div
       onClick={e => {
@@ -23,7 +32,7 @@ const QuestionCard = ({ question, handleDelete, handleClick }) => {
           <Link to={`/edit/${_id}`}>
             <EditIcon className='btn p-1 stroke-base-300 hover:stroke-secondary size-8 [border-radius:8px]' />
           </Link>
-          <CopyIcon className='btn p-1 stroke-base-300 hover:stroke-secondary size-8 [border-radius:8px]' />
+          <CopyIcon className='btn p-1 stroke-base-300 hover:stroke-secondary size-8 [border-radius:8px]' onClick={handleCopy}/>
         </span>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import toaster from 'react-hot-toast'
 import { useAuth } from '../context/AuthContext'
 import LoadingScreen from '../components/LoadingScreen'
+import { copyToClipboard } from '../lib/utils'
 
 const EditQuestion = () => {
   const { id } = useParams()
@@ -41,7 +42,7 @@ const EditQuestion = () => {
     }
   }
 
-  const handleDelete = async e =>{
+  const handleDelete = async e => {
     e.preventDefault()
     try {
       const res = await axios.delete(`/api/question/${id}`, {
@@ -54,6 +55,12 @@ const EditQuestion = () => {
       console.log(error)
       toaster.error('failed to delete')
     }
+  }
+
+  const handleCopy = () => {
+    const link = `${window.location.origin}/respond/${id}`
+    toaster.success('Link Copied To Clipboard')
+    copyToClipboard(link)
   }
 
   if (loading) {
@@ -97,7 +104,7 @@ const EditQuestion = () => {
           <button onClick={handleDelete}>
             <Trash2 className='btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]' />
           </button>
-          <CopyIcon className='btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]' />
+          <CopyIcon className='btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]' onClick={handleCopy} />
           <button onClick={handleSubmit}>
             <SaveIcon className='btn stroke-base-300 hover:stroke-secondary size-12 [border-radius:16px]' />
           </button>

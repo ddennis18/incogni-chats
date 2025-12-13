@@ -1,14 +1,16 @@
 import { SendIcon } from 'lucide-react'
 import toaster from 'react-hot-toast'
 import axios from 'axios'
-import { useState } from 'react'
-import { useParams } from 'react-router'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import LoadingScreen from '../components/LoadingScreen'
 
 const ResponsePage = () => {
-  const [isSending, setIsSending] = useState('')
+  const [isSending, setIsSending] = useState(false)
+  const [question, setQuestion] = useState({})
   const [response, setResponse] = useState('')
   const { id: qid } = useParams()
+  const navigate = useNavigate()
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -24,15 +26,32 @@ const ResponsePage = () => {
     }
   }
 
+  useEffect(() => {
+    const fetchQuestion = async () => {
+      try {
+        const res = await axios.get(`/api/question/${qid}`)
+        setQuestion(res.data)
+      } catch (error) {
+        console.log(error)
+        toaster.error('failed to load question')
+        navigate('/')
+      }
+    }
+    fetchQuestion()
+  })
+
   if (isSending) {
     return <LoadingScreen message={'Sending Your Response'} />
   }
 
   return (
-    <div className='w-full h-[70vh] flex flex-col items-center justify-center'>
+    <div className='mt-8 mx-auto w-[80%] p-4 flex flex-col items-center justify-center bg-base-100 border-t-4 border-accent rounded-xl'>
+      <div className='  border-b-2 border-accent w-full mb-8'>
+        <h3 className='label text-xl'>{question.text}</h3>
+      </div>
       <form className='flex flex-col gap-2 max-w-[500px] w-full'>
         <label htmlFor='' className='label'>
-          Response:
+          Your Response:
         </label>
         <textarea
           name=''
