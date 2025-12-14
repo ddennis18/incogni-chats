@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "node src/server.js"
   },
   "type": "module",
   "keywords": [],
@@ -16,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "incogni-chats": "file:..",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.0.0"
   },
