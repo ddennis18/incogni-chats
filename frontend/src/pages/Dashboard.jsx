@@ -54,7 +54,7 @@ const Dashboard = () => {
       <h2 className='text-secondary text-2xl font-semibold'>
         Hey! {user?.username}
       </h2>
-      {loading && <LoadingScreen message={'retrive questions'} />}
+      {loading && <LoadingScreen message={'Retrieving questions'} />}
       {error && !loading && (
         <h2 className='mt-20 text-4xl text-red-600 font-bold'>
           An error has occured!
