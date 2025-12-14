@@ -6,8 +6,11 @@ import questionRoute from './routes/question-routes.js'
 import responseRoute from './routes/response-route.js'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import path from 'path'
 
 dotenv.config()
+
+const __dirname = path.resolve()
 
 const PORT = process.env.PORT
 
@@ -25,9 +28,13 @@ app.use('/api/auth', authRoute)
 app.use('/api/question', questionRoute)
 app.use('/api/response', responseRoute)
 
-app.use((req, res, next) => {
-  res.status(404).send({ message: 'route doesnt exists' })
-})
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files
+  app.use(express.static(path.join(__dirname, '../frontend/dist')))
+  app.get(/(.*)/, (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'))
+  })
+}
 
 app.listen(PORT, () => {
   console.log(`running on port ${PORT}`)
