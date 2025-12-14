@@ -51,9 +51,6 @@ const Dashboard = () => {
 
   return (
     <div className='text-center'>
-      <Link className='ml-auto mt-4 mr-4 w-min flex flex-row text-base-300 bg-secondary text-xl font-semibold p-1 rounded-lg' to='/new'>
-        Create <PlusIcon className='stroke-base-300 self-center' />
-      </Link>
       <h2 className='text-secondary text-2xl font-semibold'>
         Hey! {user?.username}
       </h2>
@@ -64,7 +61,14 @@ const Dashboard = () => {
         </h2>
       )}
       {questions.length == 0 && !error && !loading && (
-        <h2 className='mt-20 text-4xl text-accent font-bold'>No Notes Yet!</h2>
+        <div className='flex flex-col items center gap-8'>
+          <h2 className='mt-20 text-4xl text-accent font-bold'>
+            No Questions Yet!
+          </h2>
+          <Link className='btn w-fit h-fit m-auto' to='/new'>
+            Create New Note
+          </Link>
+        </div>
       )}
       {questions.length != 0 && (
         <section className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4'>
@@ -83,6 +87,10 @@ const Dashboard = () => {
               />
             )
           })}
+
+          <Link className='btn w-fit h-fit m-auto' to='/new'>
+            Create New Note
+          </Link>
         </section>
       )}
     </div>
