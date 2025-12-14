@@ -9,6 +9,7 @@ import { AuthProvider } from './context/AuthContext'
 import UserRoute from './components/UserRoute'
 import DetailsPage from './pages/DetailsPage'
 import ResponsePage from './pages/ResponsePage'
+import $404 from './pages/$404'
 
 function App () {
   return (
@@ -54,6 +55,7 @@ function App () {
                 </UserRoute>
               }
             />
+            <Route path='*' element={<$404 />} />
           </Routes>
         </div>
       </div>

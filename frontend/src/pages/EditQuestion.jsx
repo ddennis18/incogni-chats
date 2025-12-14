@@ -24,7 +24,7 @@ const EditQuestion = () => {
     fetchQuestion().catch(error => {
       console.log(error)
       toaster.error(error.response.data.message)
-      navigate('/')
+      navigate('/*')
     })
   }, [])
 

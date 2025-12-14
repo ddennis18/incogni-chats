@@ -34,7 +34,7 @@ const ResponsePage = () => {
       } catch (error) {
         console.log(error)
         toaster.error('failed to load question')
-        navigate('/')
+        navigate('/*')
       }
     }
     fetchQuestion()
