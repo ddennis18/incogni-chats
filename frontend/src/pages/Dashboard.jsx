@@ -66,7 +66,7 @@ const Dashboard = () => {
             No Questions Yet!
           </h2>
           <Link className='btn w-fit h-fit m-auto' to='/new'>
-            Create New Note
+            Create New Question
           </Link>
         </div>
       )}
@@ -89,7 +89,7 @@ const Dashboard = () => {
           })}
 
           <Link className='btn w-fit h-fit m-auto' to='/new'>
-            Create New Note
+            Create New Question
           </Link>
         </section>
       )}
