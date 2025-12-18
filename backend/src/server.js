@@ -7,6 +7,7 @@ import responseRoute from './routes/response-route.js'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import path from 'path'
+import { handleError } from './middleware/error-middleware.js'
 
 dotenv.config()
 
@@ -35,6 +36,9 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, '../frontend/dist/index.html'))
   })
 }
+
+//global error handler
+app.use(handleError)
 
 app.listen(PORT, () => {
   console.log(`running on port ${PORT}`)
