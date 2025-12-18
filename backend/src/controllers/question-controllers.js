@@ -2,7 +2,7 @@ import { isObjectIdOrHexString } from 'mongoose'
 import Question from '../models/Question.js'
 import Response from '../models/Response.js'
 
-export async function createNewQuestion (req, res) {
+export async function createNewQuestion (req, res, next) {
   try {
     const uid = req.user.id
     console.log('CREATE QUESTION', { uid })
@@ -21,15 +21,11 @@ export async function createNewQuestion (req, res) {
       question: newQuestion
     })
   } catch (error) {
-    console.log(error)
-    res.status(500).send({
-      ok: false,
-      message: 'Server Error'
-    })
+    next(error)
   }
 }
 
-export async function editQuestion (req, res) {
+export async function editQuestion (req, res, next) {
   try {
     const uid = req.user.id
     //the id of the question to be edited
@@ -65,15 +61,11 @@ export async function editQuestion (req, res) {
       question: updatedQuestion
     })
   } catch (error) {
-    console.log(error)
-    res.status(500).send({
-      ok: false,
-      message: 'Server Error'
-    })
+    next(error)
   }
 }
 
-export async function getAllQuestions (req, res) {
+export async function getAllQuestions (req, res, next) {
   try {
     const uid = req.user.id
     console.log('GET ALL QUESTION', { uid })
@@ -81,15 +73,11 @@ export async function getAllQuestions (req, res) {
 
     res.status(200).send({ ok: true, questions })
   } catch (error) {
-    console.log(error)
-    res.status(500).send({
-      ok: false,
-      message: 'Server Error'
-    })
+    next(error)
   }
 }
 
-export async function getQuestion (req, res) {
+export async function getQuestion (req, res, next) {
   try {
     const id = req.params.id
     console.log('GET QUESTION', { id })
@@ -106,15 +94,11 @@ export async function getQuestion (req, res) {
 
     return res.status(200).send(question)
   } catch (error) {
-    console.log(error)
-    res.status(500).send({
-      ok: false,
-      message: 'Server Error'
-    })
+    next(error)
   }
 }
 
-export async function deleteQuestion (req, res) {
+export async function deleteQuestion (req, res, next) {
   try {
     const id = req.params.id
     const uid = req.user.id
@@ -137,10 +121,6 @@ export async function deleteQuestion (req, res) {
       .status(200)
       .send({ ok: true, message: 'deleted successfully', question })
   } catch (error) {
-    console.log(error)
-    res.status(500).send({
-      ok: false,
-      message: 'Server Error'
-    })
+    next(error)
   }
 }
