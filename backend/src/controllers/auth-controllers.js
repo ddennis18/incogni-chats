@@ -4,7 +4,7 @@ import User from '../models/User.js'
 
 // /api/user/auth
 
-export async function registerUser (req, res) {
+export async function registerUser (req, res, next) {
   try {
     const { username, email, password } = req.body || {}
     //check if the validity of the credentials
@@ -36,15 +36,11 @@ export async function registerUser (req, res) {
     await newUser.save()
     res.status(201).send({ ok: true, message: 'user registered successfully' })
   } catch (error) {
-    console.log(error)
-    res.status(500).send({
-      ok: false,
-      message: 'Server Error'
-    })
+    next(error)
   }
 }
 
-export async function loginUser (req, res) {
+export async function loginUser (req, res, next) {
   try {
     const { email, password } = req.body || {}
     if (!email || !password) {
@@ -99,15 +95,11 @@ export async function loginUser (req, res) {
       }
     })
   } catch (error) {
-    console.log(error)
-    res.status(500).send({
-      ok: false,
-      message: 'Server Error'
-    })
+    next(error)
   }
 }
 
-export async function refreshToken (req, res) {
+export async function refreshToken (req, res, next) {
   //this function sends a new token when the access token expires
   try {
     const token = req.cookies.refreshToken
@@ -141,12 +133,11 @@ export async function refreshToken (req, res) {
       }
     })
   } catch (error) {
-    console.log('error refreshing token:', error)
-    return res.status(500).send({ ok: false, messsage: 'server error' })
+next(error)
   }
 }
 
-export async function logoutUser (req, res) {
+export async function logoutUser (req, res, next) {
   try {
     //delete the refreshToken on the backend
     res.clearCookie('refreshToken', {
@@ -157,7 +148,6 @@ export async function logoutUser (req, res) {
 
     res.status(200).send({ ok: true, messsage: 'logged out successfully' })
   } catch (error) {
-    console.log('logging out user:', error)
-    return res.status(500).send({ ok: false, messsage: 'server error' })
+    next(error)
   }
 }
