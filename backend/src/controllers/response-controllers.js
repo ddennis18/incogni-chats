@@ -2,7 +2,7 @@ import { isObjectIdOrHexString } from 'mongoose'
 import Response from '../models/Response.js'
 import Question from '../models/Question.js'
 
-export async function respondToQuestion (req, res) {
+export async function respondToQuestion (req, res, next) {
   try {
     const { text } = req.body || {}
     const qid = req.params.id
@@ -44,15 +44,11 @@ export async function respondToQuestion (req, res) {
       .status(201)
       .send({ ok: true, message: 'Response Saved Succcessfuly', response })
   } catch (error) {
-    console.log(error)
-    res.status(500).send({
-      ok: false,
-      message: 'Server Error'
-    })
+    next(error)
   }
 }
 
-export async function getResponse (req, res) {
+export async function getResponse (req, res, next) {
   try {
     const uid = req.user.id
     const id = req.params.id
@@ -73,15 +69,11 @@ export async function getResponse (req, res) {
       .status(200)
       .send({ ok: true, message: 'Response Retrieved Succcessfuly', response })
   } catch (error) {
-    console.log(error)
-    res.status(500).send({
-      ok: false,
-      message: 'Server Error'
-    })
+    next(error)
   }
 }
 
-export async function getAllResponsesToAQuestion (req, res) {
+export async function getAllResponsesToAQuestion (req, res, next) {
   try {
     const qid = req.params.id
     const uid = req.user.id
@@ -100,10 +92,6 @@ export async function getAllResponsesToAQuestion (req, res) {
       .status(200)
       .send({ ok: true, message: 'Response Retrieved Succcessfuly', responses })
   } catch (error) {
-    console.log(error)
-    res.status(500).send({
-      ok: false,
-      message: 'Server Error'
-    })
+    next(error)
   }
 }
